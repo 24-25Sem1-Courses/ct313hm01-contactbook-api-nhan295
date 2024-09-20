@@ -1,6 +1,7 @@
 const express = require('express');
 const contactsController = require('../controllers/contacts.controller');
 const { methodNotAllowed } = require('../controllers/errors.controller');
+const avatarUpload = require('../middlewares/avatar-upload.middleware');
 
 const router = express.Router();
 module.exports.setup = (app) => {
@@ -23,6 +24,8 @@ module.exports.setup = (app) => {
      *        schema:
      *          type: string
      *        description: Filter by contact name
+     *      - $ref: '#/components/parameters/limitParam'
+     *      - $ref: '#/components/parameters/pageParam'
      *    tags:
      *      - contacts
      *    responses:
@@ -44,6 +47,8 @@ module.exports.setup = (app) => {
      *                      type: array
      *                      items:
      *                        $ref: '#/components/schemas/Contact'
+     *                    metadata:
+     *                      $ref: '#/components/schemas/PaginationMetadata'
      */
     router.get('/', contactsController.getContactsByFilter);
 
@@ -79,8 +84,9 @@ module.exports.setup = (app) => {
      *                    contact:
      *                      $ref: '#/components/schemas/Contact'
      */
-    router.post('/', contactsController.createContact);
-    
+    // router.post('/', contactsController.createContact);
+    router.post('/', avatarUpload, contactsController.createContact);
+
     /**
      * @swagger
      *  /api/v1/contacts:
@@ -99,7 +105,7 @@ module.exports.setup = (app) => {
     
     /**
      * @swagger
-     *  /api/v1/contacts/{8}:
+     *  /api/v1/contacts/{id}:
      *    get:
      *      summary: Get contact by ID
      *      description: Get contact by ID
@@ -129,7 +135,7 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
-     *   /api/v1/contacts/{8}:
+     *   /api/v1/contacts/{id}:
      *     put:
      *       summary: Update contact by ID
      *       description: Update contact by ID
@@ -161,11 +167,11 @@ module.exports.setup = (app) => {
      *                       contact:
      *                         $ref: '#/components/schemas/Contact'
      */
-    router.put('/:id', contactsController.updateContact);
+    router.put('/:id', avatarUpload, contactsController.updateContact);
 
     /**
      * @swagger
-     *   /api/v1/contacts/{8}:
+     *   /api/v1/contacts/{id}:
      *     delete:
      *       summary: Delete contact by ID
      *       description: Delete contact by ID
