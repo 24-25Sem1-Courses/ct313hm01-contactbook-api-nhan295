@@ -49,7 +49,14 @@ module.exports.setup = (app) => {
      *                        $ref: '#/components/schemas/Contact'
      *                    metadata:
      *                      $ref: '#/components/schemas/PaginationMetadata'
-     */
+     *      400:
+     *        $ref: '#/components/responses/error400'
+     *      404:
+     *        $ref: '#/components/responses/error404'
+     *      500:
+     *        $ref: '#/components/responses/error500' 
+     *         
+     */     
     router.get('/', contactsController.getContactsByFilter);
 
     /**
@@ -83,6 +90,12 @@ module.exports.setup = (app) => {
      *                  properties:
      *                    contact:
      *                      $ref: '#/components/schemas/Contact'
+     *      400:
+     *        $ref: '#/components/responses/error400'
+     *      404:
+     *        $ref: '#/components/responses/error404'
+     *      500:
+     *        $ref: '#/components/responses/error500' 
      */
     // router.post('/', contactsController.createContact);
     router.post('/', avatarUpload, contactsController.createContact);
@@ -99,6 +112,12 @@ module.exports.setup = (app) => {
      *        200:
      *          description: All contacts deleted
      *          $ref: '#/components/responses/200NoData'
+     *        400:
+     *          $ref: '#/components/responses/error400'
+     *        404:
+     *          $ref: '#/components/responses/error404'
+     *        500:
+     *          $ref: '#/components/responses/error500'
      */
     router.delete('/', contactsController.deleteAllContacts);
     router.all('/', methodNotAllowed);
@@ -130,6 +149,12 @@ module.exports.setup = (app) => {
      *                    properties:
      *                      contact:
      *                        $ref: '#/components/schemas/Contact'
+     *        400:
+     *          $ref: '#/components/responses/error400'
+     *        404:
+     *          $ref: '#/components/responses/error404'
+     *        500:
+     *          $ref: '#/components/responses/error500'  
      */
     router.get('/:id', contactsController.getContact);
 
@@ -166,6 +191,12 @@ module.exports.setup = (app) => {
      *                     properties:
      *                       contact:
      *                         $ref: '#/components/schemas/Contact'
+     *         400:
+     *           $ref: '#/components/responses/error400'
+     *         404:
+     *           $ref: '#/components/responses/error404'
+     *         500:
+     *           $ref: '#/components/responses/error500' 
      */
     router.put('/:id', avatarUpload, contactsController.updateContact);
 
@@ -183,6 +214,12 @@ module.exports.setup = (app) => {
      *         200:
      *           description: Contact deleted
      *           $ref: '#/components/responses/200NoData'
+     *         400:
+     *           $ref: '#/components/responses/error400'
+     *         404:
+     *           $ref: '#/components/responses/error404'
+     *         500:
+     *           $ref: '#/components/responses/error500'
      */
     router.delete('/:id', contactsController.deleteContact);
     router.all('/:id', methodNotAllowed);
